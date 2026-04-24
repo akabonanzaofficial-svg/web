@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login CMS - Web Pesantren</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { hijau: { 600: '#16a34a', 800: '#166534' } } } }
+        }
+    </script>
+    <style>
+        body { background-color: #f3f4f6; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col">
+
+    <!-- ================= SECTION LOGIN ================= -->
+    <div id="login-section" class="flex-grow flex items-center justify-center p-4 fade-in">
+        <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8 border-t-4 border-hijau-600">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-hijau-100 text-hijau-600 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
+                    <i class="fa-solid fa-user-lock"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Login Administrator</h2>
+                <p class="text-sm text-gray-500 mt-1">CMS Website Pondok Pesantren</p>
+            </div>
+
+            <form onsubmit="prosesLogin(event)" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-user text-gray-400"></i>
+                        </div>
+                        <input type="text" id="login_username" required class="w-full pl-10 px-4 py-2 border rounded-lg focus:ring-hijau-600 focus:border-hijau-600" placeholder="Masukkan username">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-lock text-gray-400"></i>
+                        </div>
+                        <input type="password" id="login_password" required class="w-full pl-10 px-4 py-2 border rounded-lg focus:ring-hijau-600 focus:border-hijau-600" placeholder="Masukkan password">
+                    </div>
+                </div>
+                <div id="login-error" class="hidden text-red-500 text-sm text-center font-medium bg-red-50 p-2 rounded">
+                    Username atau Password salah!
+                </div>
+                <button type="submit" class="w-full bg-hijau-600 text-white font-bold py-2.5 rounded-lg hover:bg-hijau-800 transition shadow-md">
+                    Masuk ke CMS
+                </button>
+            </form>
+            <div class="mt-6 text-center text-xs text-gray-400">
+                &copy; 2026 Sistem Pengelola Konten Pesantren
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= SECTION MAIN CMS (Sembunyi by Default) ================= -->
+    <div id="cms-section" class="hidden flex-col flex-grow fade-in">
+        <!-- Navbar CMS -->
+        <nav class="bg-hijau-800 text-white p-4 shadow-md sticky top-0 z-50">
+            <div class="max-w-5xl mx-auto flex justify-between items-center">
+                <h1 class="font-bold text-xl"><i class="fa-solid fa-gear mr-2"></i> Panel CMS Pesantren</h1>
+                <div class="flex items-center gap-4">
+                    <span class="text-sm bg-green-900 px-3 py-1 rounded hidden md:inline">Status API: <span id="status-koneksi" class="text-yellow-400 font-bold">Menunggu URL</span></span>
+                    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm font-bold transition">
+                        <i class="fa-solid fa-sign-out-alt mr-1"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-5xl mx-auto mt-8 px-4 pb-12 w-full">
+            
+            <!-- Setup API URL -->
+            <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500 mb-8">
+                <h2 class="font-bold text-gray-800 mb-2">1. Konfigurasi API Google Sheets</h2>
+                <p class="text-sm text-gray-600 mb-4">Masukkan URL Web App dari Google Apps Script Anda di sini untuk menghubungkan CMS dengan Database.</p>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="text" id="api-url" placeholder="https://script.google.com/macros/s/AKfycb..." class="flex-1 px-4 py-2 border rounded focus:ring-blue-500 focus:border-blue-500">
+                    <button onclick="hubungkanAPI()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-bold whitespace-nowrap">Hubungkan Data</button>
+                </div>
+                <p id="pesan-api" class="text-sm mt-2 hidden"></p>
+            </div>
+
+            <!-- Form Edit Konten -->
+            <div id="form-container" class="bg-white p-6 rounded-lg shadow-sm opacity-50 pointer-events-none transition-opacity duration-300">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 pb-4 border-b gap-4">
+                    <h2 class="font-bold text-gray-800 text-xl">2. Edit Konten Website</h2>
+                    <button onclick="simpanData()" id="btn-simpan" class="w-full sm:w-auto bg-hijau-600 text-white px-6 py-2 rounded shadow hover:bg-green-700 font-bold flex justify-center items-center">
+                        <i class="fa-solid fa-save mr-2"></i> Simpan Perubahan
+                    </button>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Beranda -->
+                    <div class="bg-gray-50 p-4 rounded border">
+                        <h3 class="font-bold text-gray-700 mb-4 border-b pb-2"><i class="fa-solid fa-home mr-2"></i>Halaman Beranda</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Pesantren</label>
+                                <input type="text" id="input_nama_pesantren" class="w-full px-3 py-2 border rounded" placeholder="Contoh: Pondok Pesantren Al-Hidayah">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Singkat (Hero)</label>
+                                <textarea id="input_deskripsi_hero" rows="3" class="w-full px-3 py-2 border rounded" placeholder="Kalimat sambutan di halaman depan..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profil -->
+                    <div class="bg-gray-50 p-4 rounded border">
+                        <h3 class="font-bold text-gray-700 mb-4 border-b pb-2"><i class="fa-solid fa-building mr-2"></i>Halaman Profil</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Sejarah Singkat</label>
+                                <textarea id="input_sejarah" rows="4" class="w-full px-3 py-2 border rounded" placeholder="Sejarah berdirinya lembaga..."></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Visi</label>
+                                <textarea id="input_visi" rows="2" class="w-full px-3 py-2 border rounded" placeholder="Visi lembaga..."></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Misi</label>
+                                <textarea id="input_misi" rows="4" class="w-full px-3 py-2 border rounded" placeholder="Misi lembaga..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Program Unggulan -->
+                    <div class="bg-gray-50 p-4 rounded border">
+                        <h3 class="font-bold text-gray-700 mb-4 border-b pb-2"><i class="fa-solid fa-star mr-2"></i>Program Unggulan</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="border p-3 rounded bg-white">
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Program 1</label>
+                                <input type="text" id="input_prog1_judul" class="w-full px-3 py-2 border rounded mb-2 text-sm" placeholder="Judul program">
+                                <textarea id="input_prog1_desc" rows="2" class="w-full px-3 py-2 border rounded text-sm" placeholder="Deskripsi program..."></textarea>
+                            </div>
+                            <div class="border p-3 rounded bg-white">
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Program 2</label>
+                                <input type="text" id="input_prog2_judul" class="w-full px-3 py-2 border rounded mb-2 text-sm" placeholder="Judul program">
+                                <textarea id="input_prog2_desc" rows="2" class="w-full px-3 py-2 border rounded text-sm" placeholder="Deskripsi program..."></textarea>
+                            </div>
+                            <div class="border p-3 rounded bg-white">
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Program 3</label>
+                                <input type="text" id="input_prog3_judul" class="w-full px-3 py-2 border rounded mb-2 text-sm" placeholder="Judul program">
+                                <textarea id="input_prog3_desc" rows="2" class="w-full px-3 py-2 border rounded text-sm" placeholder="Deskripsi program..."></textarea>
+                            </div>
+                            <div class="border p-3 rounded bg-white">
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Program 4</label>
+                                <input type="text" id="input_prog4_judul" class="w-full px-3 py-2 border rounded mb-2 text-sm" placeholder="Judul program">
+                                <textarea id="input_prog4_desc" rows="2" class="w-full px-3 py-2 border rounded text-sm" placeholder="Deskripsi program..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kontak -->
+                    <div class="bg-gray-50 p-4 rounded border">
+                        <h3 class="font-bold text-gray-700 mb-4 border-b pb-2"><i class="fa-solid fa-address-book mr-2"></i>Kontak & Alamat</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Lengkap</label>
+                                <input type="text" id="input_alamat" class="w-full px-3 py-2 border rounded" placeholder="Jl. Contoh No. 123...">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp</label>
+                                <input type="text" id="input_whatsapp" class="w-full px-3 py-2 border rounded" placeholder="081234567890">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Link Embed Google Maps (URL src iframe)</label>
+                                <input type="text" id="input_map_embed" class="w-full px-3 py-2 border rounded" placeholder="https://www.google.com/maps/embed?pb=...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ================= PENGATURAN AKUN LOGIN =================
+        // Anda bisa mengganti username dan password di bawah ini
+        const DATA_AKUN = {
+            username: "admin",
+            password: "pesantren2026"
+        };
+        // ==========================================================
+
+        let API_URL = "";
+
+        // Fungsi Cek Login
+        function prosesLogin(event) {
+            event.preventDefault(); // Mencegah form reload
+
+            const userIn = document.getElementById('login_username').value;
+            const passIn = document.getElementById('login_password').value;
+            const errorMsg = document.getElementById('login-error');
+
+            if(userIn === DATA_AKUN.username && passIn === DATA_AKUN.password) {
+                // Login Berhasil
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('login-section').classList.remove('flex');
+                
+                document.getElementById('cms-section').classList.remove('hidden');
+                document.getElementById('cms-section').classList.add('flex');
+                
+                // Set judul halaman
+                document.title = "Dashboard CMS - Web Pesantren";
+            } else {
+                // Login Gagal
+                errorMsg.classList.remove('hidden');
+                // Hapus efek error setelah 3 detik
+                setTimeout(() => { errorMsg.classList.add('hidden'); }, 3000);
+            }
+        }
+
+        // Fungsi Logout
+        function logout() {
+            if(confirm("Apakah Anda yakin ingin keluar dari CMS?")) {
+                document.getElementById('login_password').value = ''; // kosongkan password
+                
+                document.getElementById('cms-section').classList.add('hidden');
+                document.getElementById('cms-section').classList.remove('flex');
+                
+                document.getElementById('login-section').classList.remove('hidden');
+                document.getElementById('login-section').classList.add('flex');
+                document.title = "Login CMS - Web Pesantren";
+            }
+        }
+
+        // Fungsi menghubungkan dan menarik data pertama kali
+        async function hubungkanAPI() {
+            const urlInput = document.getElementById('api-url').value;
+            const pesan = document.getElementById('pesan-api');
+            
+            if(!urlInput.includes("script.google.com")) {
+                pesan.className = "text-sm mt-2 text-red-600 block";
+                pesan.innerText = "URL tidak valid. Pastikan itu URL dari Google Apps Script.";
+                return;
+            }
+
+            API_URL = urlInput;
+            pesan.className = "text-sm mt-2 text-blue-600 block";
+            pesan.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Sedang menarik data dari Google Sheets...';
+
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                // Isi form dengan data yang didapat
+                if(data.nama_pesantren) document.getElementById('input_nama_pesantren').value = data.nama_pesantren;
+                if(data.deskripsi_hero) document.getElementById('input_deskripsi_hero').value = data.deskripsi_hero;
+                if(data.sejarah) document.getElementById('input_sejarah').value = data.sejarah;
+                if(data.visi) document.getElementById('input_visi').value = data.visi;
+                if(data.misi) document.getElementById('input_misi').value = data.misi;
+                if(data.alamat) document.getElementById('input_alamat').value = data.alamat;
+                if(data.whatsapp) document.getElementById('input_whatsapp').value = data.whatsapp;
+
+                // Data Program Unggulan
+                if(data.prog1_judul) document.getElementById('input_prog1_judul').value = data.prog1_judul;
+                if(data.prog1_desc) document.getElementById('input_prog1_desc').value = data.prog1_desc;
+                if(data.prog2_judul) document.getElementById('input_prog2_judul').value = data.prog2_judul;
+                if(data.prog2_desc) document.getElementById('input_prog2_desc').value = data.prog2_desc;
+                if(data.prog3_judul) document.getElementById('input_prog3_judul').value = data.prog3_judul;
+                if(data.prog3_desc) document.getElementById('input_prog3_desc').value = data.prog3_desc;
+                if(data.prog4_judul) document.getElementById('input_prog4_judul').value = data.prog4_judul;
+                if(data.prog4_desc) document.getElementById('input_prog4_desc').value = data.prog4_desc;
+
+                // Data Map Embed
+                if(data.map_embed) document.getElementById('input_map_embed').value = data.map_embed;
+
+                // Buka kunci form
+                document.getElementById('form-container').classList.remove('opacity-50', 'pointer-events-none');
+                document.getElementById('status-koneksi').innerText = "Terhubung";
+                document.getElementById('status-koneksi').className = "text-green-400 font-bold";
+                pesan.className = "text-sm mt-2 text-green-600 block";
+                pesan.innerText = "Berhasil menarik data!";
+            } catch (error) {
+                pesan.className = "text-sm mt-2 text-red-600 block";
+                pesan.innerText = "Gagal terhubung. Pastikan Akses API diset ke 'Anyone'.";
+            }
+        }
+
+        // Fungsi menyimpan data ke Google Sheets
+        async function simpanData() {
+            const btn = document.getElementById('btn-simpan');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Menyimpan...';
+            btn.disabled = true;
+
+            // Kumpulkan data dari form
+            const payload = {
+                nama_pesantren: document.getElementById('input_nama_pesantren').value,
+                deskripsi_hero: document.getElementById('input_deskripsi_hero').value,
+                sejarah: document.getElementById('input_sejarah').value,
+                visi: document.getElementById('input_visi').value,
+                misi: document.getElementById('input_misi').value,
+                alamat: document.getElementById('input_alamat').value,
+                whatsapp: document.getElementById('input_whatsapp').value,
+                
+                // Data Program
+                prog1_judul: document.getElementById('input_prog1_judul').value,
+                prog1_desc: document.getElementById('input_prog1_desc').value,
+                prog2_judul: document.getElementById('input_prog2_judul').value,
+                prog2_desc: document.getElementById('input_prog2_desc').value,
+                prog3_judul: document.getElementById('input_prog3_judul').value,
+                prog3_desc: document.getElementById('input_prog3_desc').value,
+                prog4_judul: document.getElementById('input_prog4_judul').value,
+                prog4_desc: document.getElementById('input_prog4_desc').value,
+                
+                map_embed: document.getElementById('input_map_embed').value
+            };
+
+            try {
+                // Gunakan mode POST dengan tipe text/plain
+                await fetch(API_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                
+                alert("Berhasil! Data telah tersimpan di Google Sheets dan Website telah diperbarui.");
+            } catch (error) {
+                alert("Terjadi kesalahan saat menyimpan. Coba lagi.");
+            } finally {
+                btn.innerHTML = '<i class="fa-solid fa-save mr-2"></i> Simpan Perubahan';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
