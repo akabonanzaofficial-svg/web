@@ -104,12 +104,22 @@
             
             <div class="bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-gray-100 mb-8 relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-hijau-50 rounded-bl-full -z-10"></div>
-                <h3 class="text-2xl font-bold mb-6 text-hijau-800 border-b pb-3"><i class="fa-solid fa-clock-rotate-left mr-2 text-emas-500"></i> Sejarah Singkat</h3>
-                <p id="profil-sejarah" class="text-gray-600 leading-relaxed whitespace-pre-line text-lg text-justify">
-                    Pondok Pesantren Al-Hidayah didirikan pada tahun 1990 oleh K.H. Ahmad Dahlan, berawal dari sebuah majelis taklim kecil di tengah desa. Dengan niat yang ikhlas untuk mencetak kader ulama dan pemimpin umat, lembaga ini terus berkembang pesat.
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                    <!-- Tambahan Gambar Dummy Profil -->
+                    <div class="order-2 lg:order-1">
+                        <img src="https://images.unsplash.com/photo-1542816417-0983c9c9ad53?q=80&w=1000&auto=format&fit=crop" alt="Gedung Pesantren" class="rounded-2xl shadow-md w-full h-auto object-cover border-4 border-hijau-50">
+                    </div>
                     
-                    Kini, Al-Hidayah telah menjadi lembaga pendidikan modern yang mengintegrasikan keilmuan agama (tafaqquh fiddin) dengan penguasaan ilmu pengetahuan umum dan teknologi, menaungi ribuan santri dari berbagai wilayah di Indonesia.
-                </p>
+                    <div class="order-1 lg:order-2">
+                        <h3 class="text-2xl font-bold mb-6 text-hijau-800 border-b pb-3"><i class="fa-solid fa-clock-rotate-left mr-2 text-emas-500"></i> Sejarah Singkat</h3>
+                        <p id="profil-sejarah" class="text-gray-600 leading-relaxed whitespace-pre-line text-lg text-justify">
+                            Pondok Pesantren Al-Hidayah didirikan pada tahun 1990 oleh K.H. Ahmad Dahlan, berawal dari sebuah majelis taklim kecil di tengah desa. Dengan niat yang ikhlas untuk mencetak kader ulama dan pemimpin umat, lembaga ini terus berkembang pesat.
+                            
+                            Kini, Al-Hidayah telah menjadi lembaga pendidikan modern yang mengintegrasikan keilmuan agama (tafaqquh fiddin) dengan penguasaan ilmu pengetahuan umum dan teknologi, menaungi ribuan santri dari berbagai wilayah di Indonesia.
+                        </p>
+                    </div>
+                </div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -140,60 +150,79 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Program 1 -->
-                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-hijau-600 hover:shadow-xl transition transform hover:-translate-y-2 text-center">
-                    <div class="w-16 h-16 mx-auto bg-hijau-100 text-hijau-600 rounded-full flex items-center justify-center text-3xl mb-6">
-                        <i class="fa-solid fa-book-quran"></i>
+                <!-- Program 1 (Dengan Gambar) -->
+                <div class="bg-white rounded-2xl shadow-lg border-b-4 border-hijau-600 hover:shadow-xl transition transform hover:-translate-y-2 text-center overflow-hidden flex flex-col">
+                    <img src="https://images.unsplash.com/photo-1609599006353-e629aaab3151?q=80&w=600&auto=format&fit=crop" alt="Tahfidzul Quran" class="w-full h-48 object-cover">
+                    <div class="p-6 pt-0 flex-grow">
+                        <div class="w-16 h-16 mx-auto bg-hijau-100 text-hijau-600 rounded-full flex items-center justify-center text-3xl mb-4 -mt-8 border-4 border-white relative z-10">
+                            <i class="fa-solid fa-book-quran"></i>
+                        </div>
+                        <h4 id="prog1-judul" class="font-bold text-xl text-gray-800 mb-3">Tahfidzul Qur'an</h4>
+                        <p id="prog1-desc" class="text-gray-600 text-sm leading-relaxed">Program hafalan Al-Qur'an 30 Juz dengan target mutqin dan bersanad, didampingi langsung oleh musyrif berpengalaman.</p>
                     </div>
-                    <h4 id="prog1-judul" class="font-bold text-xl text-gray-800 mb-3">Tahfidzul Qur'an</h4>
-                    <p id="prog1-desc" class="text-gray-600 text-sm leading-relaxed">Program hafalan Al-Qur'an 30 Juz dengan target mutqin dan bersanad, didampingi langsung oleh musyrif berpengalaman.</p>
                 </div>
                 
-                <!-- Program 2 -->
-                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-emas-500 hover:shadow-xl transition transform hover:-translate-y-2 text-center">
-                    <div class="w-16 h-16 mx-auto bg-emas-100 text-emas-600 rounded-full flex items-center justify-center text-3xl mb-6">
-                        <i class="fa-solid fa-scroll"></i>
+                <!-- Program 2 (Dengan Gambar) -->
+                <div class="bg-white rounded-2xl shadow-lg border-b-4 border-emas-500 hover:shadow-xl transition transform hover:-translate-y-2 text-center overflow-hidden flex flex-col">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop" alt="Kajian Kitab Kuning" class="w-full h-48 object-cover">
+                    <div class="p-6 pt-0 flex-grow">
+                        <div class="w-16 h-16 mx-auto bg-emas-100 text-emas-600 rounded-full flex items-center justify-center text-3xl mb-4 -mt-8 border-4 border-white relative z-10">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
+                        <h4 id="prog2-judul" class="font-bold text-xl text-gray-800 mb-3">Kajian Kitab Kuning</h4>
+                        <p id="prog2-desc" class="text-gray-600 text-sm leading-relaxed">Pengkajian mendalam literatur Islam klasik (Turas) yang meliputi ilmu alat (Nahwu-Shorof), Fiqih, Tafsir, dan Hadits.</p>
                     </div>
-                    <h4 id="prog2-judul" class="font-bold text-xl text-gray-800 mb-3">Kajian Kitab Kuning</h4>
-                    <p id="prog2-desc" class="text-gray-600 text-sm leading-relaxed">Pengkajian mendalam literatur Islam klasik (Turas) yang meliputi ilmu alat (Nahwu-Shorof), Fiqih, Tafsir, dan Hadits.</p>
                 </div>
                 
-                <!-- Program 3 -->
-                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-hijau-600 hover:shadow-xl transition transform hover:-translate-y-2 text-center">
-                    <div class="w-16 h-16 mx-auto bg-hijau-100 text-hijau-600 rounded-full flex items-center justify-center text-3xl mb-6">
-                        <i class="fa-solid fa-language"></i>
+                <!-- Program 3 (Dengan Gambar) -->
+                <div class="bg-white rounded-2xl shadow-lg border-b-4 border-hijau-600 hover:shadow-xl transition transform hover:-translate-y-2 text-center overflow-hidden flex flex-col">
+                    <img src="https://images.unsplash.com/photo-1546410531-ea4cea477149?q=80&w=600&auto=format&fit=crop" alt="Bilingual Area" class="w-full h-48 object-cover">
+                    <div class="p-6 pt-0 flex-grow">
+                        <div class="w-16 h-16 mx-auto bg-hijau-100 text-hijau-600 rounded-full flex items-center justify-center text-3xl mb-4 -mt-8 border-4 border-white relative z-10">
+                            <i class="fa-solid fa-language"></i>
+                        </div>
+                        <h4 id="prog3-judul" class="font-bold text-xl text-gray-800 mb-3">Bilingual Area</h4>
+                        <p id="prog3-desc" class="text-gray-600 text-sm leading-relaxed">Kewajiban penggunaan bahasa Arab dan bahasa Inggris dalam percakapan sehari-hari di lingkungan asrama pesantren.</p>
                     </div>
-                    <h4 id="prog3-judul" class="font-bold text-xl text-gray-800 mb-3">Bilingual Area</h4>
-                    <p id="prog3-desc" class="text-gray-600 text-sm leading-relaxed">Kewajiban penggunaan bahasa Arab dan bahasa Inggris dalam percakapan sehari-hari di lingkungan asrama pesantren.</p>
                 </div>
                 
-                <!-- Program 4 -->
-                <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-emas-500 hover:shadow-xl transition transform hover:-translate-y-2 text-center">
-                    <div class="w-16 h-16 mx-auto bg-emas-100 text-emas-600 rounded-full flex items-center justify-center text-3xl mb-6">
-                        <i class="fa-solid fa-seedling"></i>
+                <!-- Program 4 (Dengan Gambar) -->
+                <div class="bg-white rounded-2xl shadow-lg border-b-4 border-emas-500 hover:shadow-xl transition transform hover:-translate-y-2 text-center overflow-hidden flex flex-col">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=600&auto=format&fit=crop" alt="Kewirausahaan" class="w-full h-48 object-cover">
+                    <div class="p-6 pt-0 flex-grow">
+                        <div class="w-16 h-16 mx-auto bg-emas-100 text-emas-600 rounded-full flex items-center justify-center text-3xl mb-4 -mt-8 border-4 border-white relative z-10">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h4 id="prog4-judul" class="font-bold text-xl text-gray-800 mb-3">Kewirausahaan Santri</h4>
+                        <p id="prog4-desc" class="text-gray-600 text-sm leading-relaxed">Pembekalan keterampilan hidup (life skill) seperti agribisnis, desain multimedia, dan tata boga untuk kemandirian santri.</p>
                     </div>
-                    <h4 id="prog4-judul" class="font-bold text-xl text-gray-800 mb-3">Kewirausahaan Santri</h4>
-                    <p id="prog4-desc" class="text-gray-600 text-sm leading-relaxed">Pembekalan keterampilan hidup (life skill) seperti agribisnis, desain multimedia, dan tata boga untuk kemandirian santri.</p>
                 </div>
             </div>
         </section>
 
         <!-- 4. PSB -->
         <section id="psb" class="page-section hidden section-content text-center">
-            <div class="max-w-3xl mx-auto">
+            <div class="max-w-5xl mx-auto">
                 <h2 class="text-3xl font-bold text-hijau-800 mb-4">Penerimaan Santri Baru (PSB)</h2>
                 <div class="w-20 h-1 bg-emas-500 mx-auto mt-2 mb-6 rounded"></div>
                 <p class="text-gray-600 mb-10 text-lg">Mari bergabung bersama kami menjadi bagian dari generasi Qur'ani. Pendaftaran kini dibuka untuk Tahun Ajaran 2026/2027.</p>
                 
-                <div class="bg-gradient-to-r from-emas-50 to-white p-10 rounded-3xl shadow-xl border border-emas-200">
-                    <div class="w-24 h-24 mx-auto bg-red-100 text-red-600 rounded-full flex items-center justify-center text-5xl mb-6 animate-pulse">
-                        <i class="fa-solid fa-file-pdf"></i>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center text-left">
+                    <!-- Tambahan Gambar Dummy PSB -->
+                    <div class="order-2 md:order-1">
+                        <img src="https://images.unsplash.com/photo-1511649475669-e288648b2339?q=80&w=800&auto=format&fit=crop" alt="Suasana Belajar" class="rounded-3xl shadow-lg w-full h-auto object-cover border-4 border-white">
                     </div>
-                    <h3 class="text-2xl font-bold text-hijau-900 mb-3">Brosur Resmi PSB 2026</h3>
-                    <p class="text-gray-600 mb-8 text-sm max-w-md mx-auto">Unduh brosur format PDF untuk mengetahui rincian biaya pendaftaran, daftar fasilitas lengkap, serta persyaratan administrasi.</p>
-                    <button class="bg-hijau-800 text-white px-8 py-3 rounded-full font-bold hover:bg-hijau-900 hover:shadow-lg transition flex items-center justify-center mx-auto w-full sm:w-auto">
-                        <i class="fa-solid fa-download mr-2"></i> Download Brosur PDF
-                    </button>
+                    
+                    <div class="bg-gradient-to-r from-emas-50 to-white p-10 rounded-3xl shadow-xl border border-emas-200 text-center order-1 md:order-2">
+                        <div class="w-24 h-24 mx-auto bg-red-100 text-red-600 rounded-full flex items-center justify-center text-5xl mb-6 animate-pulse">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-hijau-900 mb-3">Brosur Resmi PSB 2026</h3>
+                        <p class="text-gray-600 mb-8 text-sm max-w-md mx-auto">Unduh brosur format PDF untuk mengetahui rincian biaya pendaftaran, daftar fasilitas lengkap, serta persyaratan administrasi.</p>
+                        <button class="bg-hijau-800 text-white px-8 py-3 rounded-full font-bold hover:bg-hijau-900 hover:shadow-lg transition flex items-center justify-center mx-auto w-full sm:w-auto">
+                            <i class="fa-solid fa-download mr-2"></i> Download Brosur PDF
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
